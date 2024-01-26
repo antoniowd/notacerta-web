@@ -1,18 +1,14 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { withLoading } from "../../hocs/withLoading.hoc";
 import RequireAuth from "./RequireAuth";
 import MainLayout from "../layouts/main/MainLayout";
 
-const Dashboard = () => {
-  return <div>dashboard</div>;
-};
+import Dashboard from "../../pages/Dashboard";
 
-const Client = () => {
-  return <div>clients</div>;
-};
+const ClientPage = React.lazy(() => import("../../pages/Client"));
 
-const SignIn = () => {
-  return <div>login</div>;
-};
+const Client = withLoading(ClientPage);
 
 const AppRouter = () => {
   const protectedLayout = (
@@ -23,7 +19,7 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<SignIn />} />
+        <Route path="/login" element={<Client />} />
         <Route path="/" element={protectedLayout}>
           <Route index element={<Dashboard />} />
           <Route path="clients" element={<Client />} />
