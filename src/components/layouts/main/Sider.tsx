@@ -1,5 +1,6 @@
 import { theme, Layout } from "antd";
 import SiderMenu from "./SiderMenu";
+import { css } from "@emotion/react";
 
 export type SiderProps = {
   collapsed: boolean;
@@ -21,16 +22,16 @@ const Sider = ({ collapsed, onBreakpoint }: SiderProps) => {
       onBreakpoint={onBreakpoint}
     >
       <div
-        style={{
-          background: colorBgContainer,
-          paddingTop: "24px",
-          overflow: "auto",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-        }}
+        css={css`
+          background: ${colorBgContainer};
+          padding-top: 1.5rem;
+          overflow: auto;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+        `}
       >
         <SiderMenu />
       </div>

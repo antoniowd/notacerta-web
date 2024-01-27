@@ -1,4 +1,4 @@
-import { Button, Layout, Avatar, Dropdown, theme } from "antd";
+import { Button, Layout, Avatar, Dropdown, Typography, theme } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -6,8 +6,10 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import styles from "./Header.module.css";
 import { Link } from "react-router-dom";
+import { css } from "@emotion/react";
+
+const { Text } = Typography;
 
 export type HeaderLayoutProps = {
   siderCollapsed: boolean;
@@ -26,7 +28,11 @@ const items: MenuProps["items"] = [
   },
   {
     key: "3",
-    label: <Link to="/clients">Sair</Link>,
+    label: (
+      <Link to="/login">
+        <Text type="danger">Sair</Text>
+      </Link>
+    ),
   },
 ];
 
@@ -37,13 +43,31 @@ const Header = ({ siderCollapsed, onFoldClick }: HeaderLayoutProps) => {
 
   return (
     <Layout.Header
-      className={styles.header__container}
-      style={{
-        background: colorBgContainer,
-      }}
+      css={css`
+        padding: 0 1.25rem;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        width: 100%;
+        background: ${colorBgContainer};
+      `}
     >
-      <div className={styles.header__inner_container}>
-        <div className={styles.header__left}>
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+          justify-content: start;
+        `}
+      >
+        <div
+          css={css`
+            display: flex;
+            min-width: 200px;
+            align-items: center;
+            justify-content: start;
+            gap: 0.5rem;
+          `}
+        >
           <Button
             type="text"
             shape="circle"
@@ -58,7 +82,15 @@ const Header = ({ siderCollapsed, onFoldClick }: HeaderLayoutProps) => {
           />
           NOTA CERTA
         </div>
-        <div className={styles.header__right}>
+        <div
+          css={css`
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            justify-content: end;
+            gap: 1rem;
+          `}
+        >
           <Button shape="circle" type="text">
             <SettingOutlined style={iconSize} />
           </Button>

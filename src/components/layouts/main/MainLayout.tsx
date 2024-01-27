@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Layout, Grid } from "antd";
 import { Outlet } from "react-router-dom";
+import Content from "./Content";
 import Header from "./Header";
 import Drawer from "./Drawer";
 import Sider from "./Sider";
-import Content from "./Content";
+import { css } from "@emotion/react";
 
 const { useBreakpoint } = Grid;
 
@@ -36,15 +37,19 @@ const MainLayout = () => {
   return (
     <Layout>
       <Header siderCollapsed={siderCollapsed} onFoldClick={handleMenuFolding} />
-      <Layout style={{ height: "calc(100vh - 64px)" }}>
+      <Layout
+        css={css`
+          height: calc(100vh - 64px);
+        `}
+      >
         <Drawer open={showDrawer} onClose={handlerCloseDrawer} />
         {showSider && (
           <Sider collapsed={siderCollapsed} onBreakpoint={setSiderCollapsed} />
         )}
         <Layout
-          style={{
-            position: "relative",
-          }}
+          css={css`
+            position: relative;
+          `}
         >
           <Content>
             <Outlet />
