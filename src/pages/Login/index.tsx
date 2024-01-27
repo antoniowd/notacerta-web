@@ -1,10 +1,11 @@
-import { Form, Input, Button, Typography, theme } from "antd";
+import { Form, Input, Button, Typography } from "antd";
 import { css } from "@emotion/react";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import FlatLayout from "@app/components/layouts/FlatLayout";
+import CardContainer from "@app/components/common/CardContainer";
 
-const { useToken } = theme;
 const { Title, Text } = Typography;
 
 type FieldType = {
@@ -27,7 +28,6 @@ const ShowGlobalErrors = ({ messages }: ShowGlobalErrorsProps) => {
 
 const Login = () => {
   const [globalErrors, setGlobalErrors] = useState<string[]>([]);
-  const { token } = useToken();
   const finishHandler = (values: FieldType) => {
     console.log(values);
 
@@ -39,47 +39,23 @@ const Login = () => {
   };
 
   return (
-    <div
-      css={css`
-        display: flex;
-        height: 100vh;
-        align-items: center;
-        justify-content: center;
-        background: ${token.colorBgLayout};
-      `}
-    >
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          margin: 0 1rem;
-          padding: 2rem 2.5rem;
-          min-width: 200px;
-          max-width: 28.125rem;
-          width: 100%;
-          background: ${token.colorBgContainer};
-          border: 1px solid ${token.colorBorder};
-          box-shadow: ${token.boxShadow};
-          border-radius: ${token.borderRadiusLG}px;
-        `}
-      >
+    <FlatLayout>
+      <CardContainer maxWidth="28rem">
         <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-          `}
+          css={css({
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "2rem",
+          })}
         >
           <Title level={3}>NOTA CERTA</Title>
 
           <Text
-            css={css`
-              text-align: center;
-            `}
+            css={css({
+              textAlign: "center",
+            })}
           >
             Bem-vindo de volta! Pronto para gerenciar seus orçamentos e emitir
             notas fiscais com facilidade?
@@ -87,9 +63,9 @@ const Login = () => {
         </div>
 
         <Form
-          css={css`
-            width: 100%;
-          `}
+          css={css({
+            width: "100%",
+          })}
           name="basic"
           layout="vertical"
           validateTrigger={["onSubmit"]}
@@ -98,7 +74,7 @@ const Login = () => {
           autoComplete="off"
         >
           <Form.Item<FieldType>
-            label="E-mail"
+            label={<Text strong>Email</Text>}
             name="email"
             rules={[
               {
@@ -117,7 +93,7 @@ const Login = () => {
           </Form.Item>
 
           <Form.Item<FieldType>
-            label="Senha"
+            label={<Text strong>Senha</Text>}
             name="password"
             rules={[
               {
@@ -128,11 +104,11 @@ const Login = () => {
             ]}
           >
             <div
-              css={css`
-                display: flex;
-                flex-direction: column;
-                align-items: end;
-              `}
+              css={css({
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "end",
+              })}
             >
               <Input.Password size="large" />
               <Link to="/forgot-password">Esqueceu sua senha?</Link>
@@ -140,14 +116,14 @@ const Login = () => {
           </Form.Item>
           <ShowGlobalErrors messages={globalErrors} />
           <Form.Item
-            css={css`
-              padding-top: 1rem;
-            `}
+            css={css({
+              paddingTop: "1rem",
+            })}
           >
             <Button
-              css={css`
-                width: 100%;
-              `}
+              css={css({
+                width: "100%",
+              })}
               size="large"
               type="primary"
               htmlType="submit"
@@ -157,10 +133,10 @@ const Login = () => {
           </Form.Item>
         </Form>
         <Text type="secondary">
-          Não tem conta? <Link to="/register">Cadastre-se aqui.</Link>
+          Não tem conta? <Link to="/signup">Cadastre-se aqui.</Link>
         </Text>
-      </div>
-    </div>
+      </CardContainer>
+    </FlatLayout>
   );
 };
 

@@ -8,11 +8,13 @@ const MainLayout = React.lazy(() => import("../layouts/main/MainLayout"));
 
 // Public pages
 const LoginPage = React.lazy(() => import("../../pages/Login"));
+const SignupPage = React.lazy(() => import("../../pages/Signup"));
 
 const DashboardPage = React.lazy(() => import("../../pages/Dashboard"));
 const ClientPage = React.lazy(() => import("../../pages/Client"));
 
 const Login = withLoading(LoginPage);
+const Signup = withLoading(SignupPage);
 
 const Client = withLoading(ClientPage);
 const Dashboard = withLoading(DashboardPage);
@@ -29,6 +31,7 @@ const AppRouter = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/" element={protectedLayout}>
           <Route index element={<Dashboard />} />
           <Route path="clients" element={<Client />} />
