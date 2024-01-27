@@ -1,17 +1,14 @@
 import React, { ReactNode, Suspense } from "react";
-// import { Loading } from '@app/components/common/Loading';
-
-const Loading = () => <div>loading...</div>;
+import SectionLoading from "../components/loading/SectionLoading";
 
 type ReturnType<T> = (props: T) => JSX.Element;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export const withLoading = <T extends object>(
   Component: React.ComponentType<T>,
   loading?: ReactNode,
 ): ReturnType<T> => {
   return (props: T) => (
-    <Suspense fallback={loading || <Loading />}>
+    <Suspense fallback={loading || <SectionLoading />}>
       <Component {...props} />
     </Suspense>
   );
