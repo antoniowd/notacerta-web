@@ -13,6 +13,7 @@ import {
   ShoppingOutlined,
 } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
+import { css } from "@emotion/react";
 type MenuItem = Required<MenuProps>["items"][number];
 
 function getItem(
@@ -98,7 +99,7 @@ const SiderMenu = ({ onClickItem }: SiderMenuProps) => {
       mode="inline"
       onClick={onClickItem}
       selectedKeys={[active]}
-      style={{ height: "100%", borderRight: 0 }}
+      css={css({ height: "100%", borderRight: 0 })}
       items={items}
     />
   );

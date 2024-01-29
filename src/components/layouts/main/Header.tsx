@@ -43,30 +43,30 @@ const Header = ({ siderCollapsed, onFoldClick }: HeaderLayoutProps) => {
 
   return (
     <Layout.Header
-      css={css`
-        padding: 0 1.25rem;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        width: 100%;
-        background: ${colorBgContainer};
-      `}
+      css={css({
+        padding: "0 1.25rem",
+        position: "sticky",
+        top: 0,
+        zIndex: 1,
+        width: "100%",
+        background: colorBgContainer,
+      })}
     >
       <div
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: start;
-        `}
+        css={css({
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "start",
+        })}
       >
         <div
-          css={css`
-            display: flex;
-            min-width: 200px;
-            align-items: center;
-            justify-content: start;
-            gap: 0.5rem;
-          `}
+          css={css({
+            display: "flex",
+            minWidth: "200px",
+            alignItems: "center",
+            justifyContent: "start",
+            gap: "0.5rem",
+          })}
         >
           <Button
             type="text"
@@ -83,13 +83,13 @@ const Header = ({ siderCollapsed, onFoldClick }: HeaderLayoutProps) => {
           NOTA CERTA
         </div>
         <div
-          css={css`
-            display: flex;
-            flex-grow: 1;
-            align-items: center;
-            justify-content: end;
-            gap: 1rem;
-          `}
+          css={css({
+            display: "flex",
+            flexGrow: 1,
+            alignItems: "center",
+            justifyContent: "end",
+            gap: "1rem",
+          })}
         >
           <Button shape="circle" type="text">
             <SettingOutlined style={iconSize} />
@@ -103,11 +103,11 @@ const Header = ({ siderCollapsed, onFoldClick }: HeaderLayoutProps) => {
             placement="bottomRight"
           >
             <Avatar
-              style={{
+              css={css({
                 verticalAlign: "middle",
                 marginLeft: "16px",
                 cursor: "pointer",
-              }}
+              })}
               size="large"
             >
               A

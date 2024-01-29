@@ -38,18 +38,18 @@ const MainLayout = () => {
     <Layout>
       <Header siderCollapsed={siderCollapsed} onFoldClick={handleMenuFolding} />
       <Layout
-        css={css`
-          height: calc(100vh - 64px);
-        `}
+        css={css({
+          height: "calc(100vh - 64px)",
+        })}
       >
         <Drawer open={showDrawer} onClose={handlerCloseDrawer} />
         {showSider && (
           <Sider collapsed={siderCollapsed} onBreakpoint={setSiderCollapsed} />
         )}
         <Layout
-          css={css`
-            position: relative;
-          `}
+          css={css({
+            position: "relative",
+          })}
         >
           <Content>
             <Outlet />

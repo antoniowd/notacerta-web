@@ -8,22 +8,22 @@ const Content = ({ children }: WithChildrenProps) => {
   } = theme.useToken();
   return (
     <Layout.Content
-      css={css`
-        position: absolute;
-        padding: 1rem;
-        left: 0;
-        bottom: 0;
-        top: 0;
-        right: 0;
-        overflow: auto;
-      `}
+      css={css({
+        position: "absolute",
+        padding: "1rem",
+        left: 0,
+        bottom: 0,
+        top: 0,
+        right: 0,
+        overflow: "auto",
+      })}
     >
       <div
-        css={css`
-          padding: 1rem;
-          background: ${colorBgContainer};
-          border-radius: ${borderRadiusLG}px;
-        `}
+        css={css({
+          padding: "1rem",
+          background: colorBgContainer,
+          borderRadius: `${borderRadiusLG}px`,
+        })}
       >
         {children}
       </div>
