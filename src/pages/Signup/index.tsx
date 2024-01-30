@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Form, Input, Button, Typography, Checkbox } from "antd";
 import { css } from "@emotion/react";
 import AppError from "@app/libs/AppError";
 import createUser from "@app/services/user/createUser";
 import FlatLayout from "@app/components/layouts/FlatLayout";
 import CardContainer from "@app/components/common/CardContainer";
+import { useAtom } from "jotai";
+import { userModel } from "@app/storage";
 
 const { Title, Text } = Typography;
 
@@ -48,14 +50,14 @@ const PasswordFieldTooltip = () => {
 };
 
 const Signup = () => {
+  const [user] = useAtom(userModel);
   const [globalErrors, setGlobalErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+
   const finishHandler = async ({ fullName, email, password }: FieldType) => {
     setLoading(true);
     try {
-      const user = await createUser({ displayName: fullName, email, password });
-      console.log(user);
-      console.log(user.email);
+      await createUser({ displayName: fullName, email, password });
     } catch (err) {
       if (err instanceof AppError) {
         setGlobalErrors([err.message]);
@@ -68,6 +70,10 @@ const Signup = () => {
       setLoading(false);
     }
   };
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <FlatLayout>

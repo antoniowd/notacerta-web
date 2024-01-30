@@ -2,9 +2,13 @@ import { Form, Input, Button, Typography } from "antd";
 import { css } from "@emotion/react";
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import FlatLayout from "@app/components/layouts/FlatLayout";
 import CardContainer from "@app/components/common/CardContainer";
+import authenticateUser from "@app/services/user/authenticateUser";
+import AppError from "@app/libs/AppError";
+import { useAtom } from "jotai";
+import { userModel } from "@app/storage";
 
 const { Title, Text } = Typography;
 
@@ -27,16 +31,32 @@ const ShowGlobalErrors = ({ messages }: ShowGlobalErrorsProps) => {
 };
 
 const Login = () => {
+  const [user] = useAtom(userModel);
   const [globalErrors, setGlobalErrors] = useState<string[]>([]);
-  const finishHandler = (values: FieldType) => {
-    console.log(values);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    setGlobalErrors(["Email ou senha incorretos. Por favor, tente novamente."]);
+  const finishHandler = async ({ email, password }: FieldType) => {
+    setLoading(true);
+    try {
+      await authenticateUser({ email, password });
+      navigate("/");
+    } catch (err) {
+      if (err instanceof AppError) {
+        setGlobalErrors([err.message]);
+      } else {
+        setGlobalErrors([
+          "Ocorreu um erro ao entrar na sua conta. Tente novamente mais tarde ou entre em contato conosco.",
+        ]);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const finishFailedHandler = (errorInfo: any) => {
-    console.log(errorInfo);
-  };
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <FlatLayout>
@@ -70,7 +90,6 @@ const Login = () => {
           layout="vertical"
           validateTrigger={["onSubmit"]}
           onFinish={finishHandler}
-          onFinishFailed={finishFailedHandler}
           autoComplete="off"
         >
           <Form.Item<FieldType>
@@ -124,6 +143,7 @@ const Login = () => {
               css={css({
                 width: "100%",
               })}
+              loading={loading}
               size="large"
               type="primary"
               htmlType="submit"

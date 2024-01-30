@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import type { CreateUserDTO } from "./user.types";
-import { auth } from "@app/config/firebase";
+import { auth, LOGIN_REDIRECT } from "@app/config/firebase";
 import AppError from "@app/libs/AppError";
 import { UserModel } from "@app/domain/UserModel";
 
@@ -56,9 +56,8 @@ const createUser = async ({ email, password, displayName }: CreateUserDTO) => {
   }
 
   try {
-    // TODO: Change the url for production
     await sendEmailVerification(firebaseUser, {
-      url: "http://localhost:3000/login",
+      url: LOGIN_REDIRECT,
     });
   } catch (err) {
     throw new AppError(

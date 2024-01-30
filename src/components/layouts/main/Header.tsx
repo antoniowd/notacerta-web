@@ -29,7 +29,7 @@ const items: MenuProps["items"] = [
   {
     key: "3",
     label: (
-      <Link to="/login">
+      <Link to="/logout">
         <Text type="danger">Sair</Text>
       </Link>
     ),

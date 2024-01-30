@@ -1,9 +1,10 @@
-import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { WithChildrenProps } from "../../@types/generalTypes";
+import { useAtom } from "jotai";
+import { userModel } from "@app/storage";
 
 const RequireAuth = ({ children }: WithChildrenProps) => {
-  const [user] = useState(true);
+  const [user] = useAtom(userModel);
 
   return user ? <>{children}</> : <Navigate to="/login" replace />;
 };

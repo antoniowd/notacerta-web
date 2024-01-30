@@ -1,4 +1,8 @@
-export type ErrorCodes = "Internal" | "EmailAlreadyExists" | "InvalidPassword";
+export type ErrorCodes =
+  | "Internal"
+  | "EmailAlreadyExists"
+  | "InvalidPassword"
+  | "InvalidCredentials";
 
 export default class AppError extends Error {
   code: string;

@@ -8,6 +8,7 @@ const {
   VITE_FB_STORAGE_BUCKET,
   VITE_FB_MESSAGING_SENDER_ID,
   VITE_FB_APP_ID,
+  VITE_FB_LOGIN_REDIRECT,
 } = import.meta.env;
 
 const firebaseConfig = {
@@ -18,6 +19,8 @@ const firebaseConfig = {
   messagingSenderId: VITE_FB_MESSAGING_SENDER_ID,
   appId: VITE_FB_APP_ID,
 };
+
+export const LOGIN_REDIRECT = VITE_FB_LOGIN_REDIRECT;
 
 export const app = initializeApp(firebaseConfig);
 

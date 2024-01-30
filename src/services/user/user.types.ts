@@ -3,3 +3,5 @@ export type CreateUserDTO = {
   password: string;
   displayName: string;
 };
+
+export type AuthenticateUserDTO = Omit<CreateUserDTO, "displayName">;
