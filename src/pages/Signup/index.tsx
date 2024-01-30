@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Typography, Checkbox } from "antd";
 import { css } from "@emotion/react";
 import AppError from "@app/libs/AppError";
@@ -53,11 +53,13 @@ const Signup = () => {
   const [user] = useAtom(userModel);
   const [globalErrors, setGlobalErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const finishHandler = async ({ fullName, email, password }: FieldType) => {
     setLoading(true);
     try {
       await createUser({ displayName: fullName, email, password });
+      navigate("/");
     } catch (err) {
       if (err instanceof AppError) {
         setGlobalErrors([err.message]);

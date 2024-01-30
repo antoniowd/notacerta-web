@@ -6,7 +6,15 @@ import { userModel } from "@app/storage";
 const RequireAuth = ({ children }: WithChildrenProps) => {
   const [user] = useAtom(userModel);
 
-  return user ? <>{children}</> : <Navigate to="/login" replace />;
+  if (user && user.emailVerfified) {
+    return <>{children}</>;
+  }
+
+  if (user && !user.emailVerfified) {
+    return <Navigate to="/verify-email" replace />;
+  }
+
+  return <Navigate to="/login" replace />;
 };
 
 export default RequireAuth;

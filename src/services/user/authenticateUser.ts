@@ -1,6 +1,9 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { AuthenticateUserDTO } from "./user.types";
-import { auth } from "@app/config/firebase";
+import { LOGIN_REDIRECT, auth } from "@app/config/firebase";
 import AppError from "@app/libs/AppError";
 import { FirebaseError } from "firebase/app";
 
@@ -11,6 +14,13 @@ const authenticateUser = async ({ email, password }: AuthenticateUserDTO) => {
       email,
       password,
     );
+
+    if (!firebaseUser.user.emailVerified) {
+      await sendEmailVerification(firebaseUser.user, {
+        url: LOGIN_REDIRECT,
+      });
+    }
+
     return firebaseUser.user;
   } catch (err) {
     if (err instanceof FirebaseError) {
