@@ -1,15 +1,8 @@
-import { Button, Layout, Avatar, Dropdown, Typography, theme } from "antd";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  BellOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Layout, Avatar, theme } from "antd";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { css } from "@emotion/react";
-
-const { Text } = Typography;
+import { useState } from "react";
+import SecondaryDrawer from "./SecondaryDrawer";
 
 export type HeaderLayoutProps = {
   siderCollapsed: boolean;
@@ -17,29 +10,20 @@ export type HeaderLayoutProps = {
 };
 
 const iconSize = { fontSize: "20px" };
-const items: MenuProps["items"] = [
-  {
-    key: "1",
-    label: <Link to="/">Dashboard</Link>,
-  },
-  {
-    key: "2",
-    label: <Link to="/clients">Clientes</Link>,
-  },
-  {
-    key: "3",
-    label: (
-      <Link to="/logout">
-        <Text type="danger">Sair</Text>
-      </Link>
-    ),
-  },
-];
 
 const Header = ({ siderCollapsed, onFoldClick }: HeaderLayoutProps) => {
+  const [showSecondaryMenu, setShowSecondaryMenu] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const handleAvatarClick = () => {
+    setShowSecondaryMenu(true);
+  };
+
+  const handleCloseMenu = () => {
+    setShowSecondaryMenu(false);
+  };
 
   return (
     <Layout.Header
@@ -91,28 +75,18 @@ const Header = ({ siderCollapsed, onFoldClick }: HeaderLayoutProps) => {
             gap: "1rem",
           })}
         >
-          <Button shape="circle" type="text">
-            <SettingOutlined style={iconSize} />
-          </Button>
-          <Button shape="circle" type="text">
-            <BellOutlined style={iconSize} />
-          </Button>
-          <Dropdown
-            menu={{ items }}
-            trigger={["click"]}
-            placement="bottomRight"
+          <Avatar
+            css={css({
+              verticalAlign: "middle",
+              marginLeft: "16px",
+              cursor: "pointer",
+            })}
+            size="large"
+            onClick={handleAvatarClick}
           >
-            <Avatar
-              css={css({
-                verticalAlign: "middle",
-                marginLeft: "16px",
-                cursor: "pointer",
-              })}
-              size="large"
-            >
-              A
-            </Avatar>
-          </Dropdown>
+            A
+          </Avatar>
+          <SecondaryDrawer open={showSecondaryMenu} onClose={handleCloseMenu} />
         </div>
       </div>
     </Layout.Header>

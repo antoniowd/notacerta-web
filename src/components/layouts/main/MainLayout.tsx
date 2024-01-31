@@ -30,7 +30,7 @@ const MainLayout = () => {
     }
   };
 
-  const handlerCloseDrawer = () => {
+  const handleCloseDrawer = () => {
     setShowDrawer(false);
   };
 
@@ -42,7 +42,7 @@ const MainLayout = () => {
           height: "calc(100vh - 64px)",
         })}
       >
-        <Drawer open={showDrawer} onClose={handlerCloseDrawer} />
+        <Drawer open={showDrawer} onClose={handleCloseDrawer} />
         {showSider && (
           <Sider collapsed={siderCollapsed} onBreakpoint={setSiderCollapsed} />
         )}
