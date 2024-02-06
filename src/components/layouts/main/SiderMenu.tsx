@@ -89,7 +89,7 @@ const SiderMenu = ({ onClickItem }: SiderMenuProps) => {
   const [active, setActive] = useState("");
   const location = useLocation();
 
-  // TODO: Change this to startWiths()
+  // TODO: Change this to startsWith()
   useEffect(() => {
     setActive(location.pathname);
   }, [location.pathname]);

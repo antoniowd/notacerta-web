@@ -1,10 +1,12 @@
-import { Button, Layout, Avatar, theme } from "antd";
+import { Button, Layout, Avatar, theme, Typography } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { css } from "@emotion/react";
 import { useState } from "react";
 import SecondaryDrawer from "./SecondaryDrawer";
 import { useAtom } from "jotai";
 import { userModel } from "@app/storage";
+
+const { Text } = Typography;
 
 export type HeaderLayoutProps = {
   siderCollapsed: boolean;
