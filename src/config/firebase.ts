@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const {
   VITE_FB_API_KEY,
@@ -25,3 +27,7 @@ export const LOGIN_REDIRECT = VITE_FB_LOGIN_REDIRECT;
 export const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+
+export const storage = getStorage(app);
+
+export const db = getFirestore(app);

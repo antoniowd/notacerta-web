@@ -8,6 +8,7 @@ import FlatLayout from "@app/components/layouts/FlatLayout";
 import CardContainer from "@app/components/common/CardContainer";
 import { useAtom } from "jotai";
 import { userModel } from "@app/storage";
+import { validateName } from "@app/utils/validators";
 
 const { Title, Text } = Typography;
 
@@ -59,7 +60,7 @@ const Signup = () => {
     setLoading(true);
     try {
       await createUser({ displayName: fullName, email, password });
-      navigate("/");
+      navigate("/welcome");
     } catch (err) {
       if (err instanceof AppError) {
         setGlobalErrors([err.message]);
@@ -121,12 +122,7 @@ const Signup = () => {
                 message:
                   "Campo de nome completo não pode estar vazio. Por favor, insira seu nome completo.",
               },
-              {
-                pattern:
-                  /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\-]+(?: [A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\-]+)+$/,
-                message:
-                  "Nome completo inválido. Por favor, insira seu nome e sobrenome, utilizando apenas caracteres alfabéticos e acentuados.",
-              },
+              validateName(),
             ]}
           >
             <Input size="large" />

@@ -41,7 +41,7 @@ const links = [
   { label: "-" },
   {
     icon: <FileOutlined />,
-    label: "Orcamentos",
+    label: "Orçamentos",
     href: "/estimates",
   },
   {

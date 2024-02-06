@@ -3,6 +3,8 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { css } from "@emotion/react";
 import { useState } from "react";
 import SecondaryDrawer from "./SecondaryDrawer";
+import { useAtom } from "jotai";
+import { userModel } from "@app/storage";
 
 export type HeaderLayoutProps = {
   siderCollapsed: boolean;
@@ -12,6 +14,7 @@ export type HeaderLayoutProps = {
 const iconSize = { fontSize: "20px" };
 
 const Header = ({ siderCollapsed, onFoldClick }: HeaderLayoutProps) => {
+  const [user] = useAtom(userModel);
   const [showSecondaryMenu, setShowSecondaryMenu] = useState(false);
   const {
     token: { colorBgContainer },
@@ -83,9 +86,8 @@ const Header = ({ siderCollapsed, onFoldClick }: HeaderLayoutProps) => {
             })}
             size="large"
             onClick={handleAvatarClick}
-          >
-            A
-          </Avatar>
+            src={user?.avatarUrl || "/user-blank.webp"}
+          />
           <SecondaryDrawer open={showSecondaryMenu} onClose={handleCloseMenu} />
         </div>
       </div>

@@ -18,8 +18,12 @@ const LogoutPage = React.lazy(() => import("@app/pages/Logout"));
 const VerifyEmailPage = React.lazy(() => import("@app/pages/VerifyEmail"));
 const ResetPasswordPage = React.lazy(() => import("@app/pages/ResetPassword"));
 
+// main menu
 const DashboardPage = React.lazy(() => import("@app/pages/Dashboard"));
 const ClientPage = React.lazy(() => import("@app/pages/Client"));
+
+//secondary menu
+const ProfilePage = React.lazy(() => import("@app/pages/Profile"));
 
 const Login = withLoading(LoginPage);
 const Signup = withLoading(SignupPage);
@@ -29,6 +33,8 @@ const ResetPassword = withLoading(ResetPasswordPage);
 
 const Client = withLoading(ClientPage);
 const Dashboard = withLoading(DashboardPage);
+
+const Profile = withLoading(ProfilePage);
 
 const AppRouter = () => {
   const [loading, setLoading] = useState(true);
@@ -63,7 +69,8 @@ const AppRouter = () => {
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/" element={protectedLayout}>
           <Route index element={<Dashboard />} />
-          <Route path="clients" element={<Client />} />
+          <Route path="/clients" element={<Client />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>

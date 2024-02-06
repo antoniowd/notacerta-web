@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 
 const Content = ({ children }: WithChildrenProps) => {
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer, borderRadiusLG, boxShadowTertiary },
   } = theme.useToken();
   return (
     <Layout.Content
@@ -23,6 +23,7 @@ const Content = ({ children }: WithChildrenProps) => {
           padding: "1rem",
           background: colorBgContainer,
           borderRadius: `${borderRadiusLG}px`,
+          boxShadow: boxShadowTertiary,
         })}
       >
         {children}
