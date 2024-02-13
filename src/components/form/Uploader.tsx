@@ -3,11 +3,13 @@ import { Upload, Button } from "antd";
 import type { GetProp, UploadProps, UploadFile } from "antd";
 import { css } from "@emotion/react";
 import { useState } from "react";
+import { UploadListType } from "antd/lib/upload/interface";
 
 export type UploaderProps = {
   initialUrl: string | undefined | null;
   onChange: (url: UploadFile | null) => void;
   onError: (error: string) => void;
+  listType?: UploadListType;
 };
 
 type FileUploadType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
@@ -18,7 +20,12 @@ const getBase64 = (img: FileUploadType, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 
-const Uploader = ({ initialUrl, onChange, onError }: UploaderProps) => {
+const Uploader = ({
+  initialUrl,
+  onChange,
+  onError,
+  listType = "picture-circle",
+}: UploaderProps) => {
   const [imageUrl, setImageUrl] = useState(initialUrl);
 
   const beforeUpload = (file: FileUploadType) => {
@@ -51,7 +58,7 @@ const Uploader = ({ initialUrl, onChange, onError }: UploaderProps) => {
   const uploadButton = (
     <button css={css({ border: 0, background: "none" })} type="button">
       <PlusOutlined />
-      <div css={css({ marginTop: "0.5rem" })}>Upload</div>
+      <div css={css({ marginTop: "0.5rem" })}>Subir</div>
     </button>
   );
 
@@ -80,8 +87,8 @@ const Uploader = ({ initialUrl, onChange, onError }: UploaderProps) => {
         </div>
       )}
       <Upload
-        name="avatar"
-        listType="picture-circle"
+        name="Logo"
+        listType={listType}
         className="avatar-uploader"
         showUploadList={false}
         beforeUpload={beforeUpload}
@@ -93,7 +100,7 @@ const Uploader = ({ initialUrl, onChange, onError }: UploaderProps) => {
           <img
             css={css({
               width: "100%",
-              borderRadius: "100%",
+              borderRadius: listType === "picture-circle" ? "100%" : "auto",
               margin: "1px",
             })}
             src={imageUrl}

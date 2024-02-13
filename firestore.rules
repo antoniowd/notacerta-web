@@ -1,0 +1,15 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /userData/{userId} {
+    	// Allow read/write if the userId matches the request auth uid
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /companies/{companyId} {
+      allow read: if request.auth != null && request.auth.uid in resource.data.users;
+      allow update: if request.auth != null && request.auth.uid == resource.data.ownerId;
+    }
+  }
+}

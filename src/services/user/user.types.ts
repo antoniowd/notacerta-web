@@ -5,3 +5,7 @@ export type CreateUserDTO = {
 };
 
 export type AuthenticateUserDTO = Omit<CreateUserDTO, "displayName">;
+
+export type AddUserDataDTO = {
+  userId: string;
+};

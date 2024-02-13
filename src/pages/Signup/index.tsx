@@ -60,7 +60,7 @@ const Signup = () => {
     setLoading(true);
     try {
       await createUser({ displayName: fullName, email, password });
-      navigate("/welcome");
+      navigate("/verify-email");
     } catch (err) {
       if (err instanceof AppError) {
         setGlobalErrors([err.message]);

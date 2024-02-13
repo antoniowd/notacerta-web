@@ -6,15 +6,11 @@ import { useState } from "react";
 import { userModel } from "@app/storage";
 import Uploader from "@app/components/form/Uploader";
 import { css } from "@emotion/react";
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-} from "firebase/storage";
-import { auth, storage } from "@app/config/firebase";
+import { auth } from "@app/config/firebase";
 import { updateProfile } from "firebase/auth";
 import { UserModel } from "@app/domain/UserModel";
+import uploadObject from "@app/services/firebaseStorage/uploadObject";
+import deleteObject from "@app/services/firebaseStorage/deleteObject";
 
 const { Text } = Typography;
 
@@ -54,15 +50,13 @@ const UserForm = () => {
       const storageUrl = `profile_images/${user?.id}/avatar.${
         extension[extension?.length - 1]
       }`;
-      const imageRef = ref(storage, storageUrl);
 
       if (avatar) {
-        const snapshot = await uploadBytes(imageRef, avatar as any);
-        url = await getDownloadURL(snapshot.ref);
+        const uploadResult = await uploadObject(storageUrl, avatar as any);
+        url = uploadResult.url;
       } else {
         if (user && user.avatarUrl && isUploaderChanged) {
-          const imageRef = ref(storage, user.avatarUrl);
-          await deleteObject(imageRef);
+          await deleteObject(user.avatarUrl);
         }
       }
 
@@ -74,6 +68,7 @@ const UserForm = () => {
         setUser(UserModel.createFromFirebase(auth.currentUser));
       }
     } catch (error) {
+      // TODO: Capture AppErrors
       setError("Ocorreu um erro ao atualizar o seu perfil.");
     } finally {
       setLoading(false);
@@ -82,90 +77,88 @@ const UserForm = () => {
   };
 
   return (
-    <>
-      <Form
-        name="basic"
-        layout="vertical"
-        validateTrigger={["onSubmit"]}
-        onFinish={handleSubmit}
-        autoComplete="off"
-        initialValues={{
-          fullName: user?.fullName,
-          email: user?.email,
-        }}
+    <Form
+      name="basic"
+      layout="vertical"
+      validateTrigger={["onSubmit"]}
+      onFinish={handleSubmit}
+      autoComplete="off"
+      initialValues={{
+        fullName: user?.fullName,
+        email: user?.email,
+      }}
+    >
+      <div
+        css={css({
+          marginBottom: "1rem",
+        })}
       >
-        <div
-          css={css({
-            marginBottom: "1rem",
-          })}
-        >
-          <Uploader
-            initialUrl={user?.avatarUrl}
-            onChange={handleUploadChange}
-            onError={handleUploadError}
-          />
-        </div>
-        <Form.Item<FieldType>
-          label="Nome Completo"
-          name="fullName"
-          rules={[
-            {
-              required: true,
-              message:
-                "Campo de nome completo não pode estar vazio. Por favor, insira seu nome completo.",
-            },
-            validateName(),
-          ]}
-        >
-          <Input onChange={() => setNeedToSave(true)} />
-        </Form.Item>
-        <Form.Item<FieldType>
-          label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message:
-                "Campo de email não pode estar vazio. Por favor, insira seu email.",
-            },
-            {
-              type: "email",
-              message:
-                "Endereço de email inválido. Por favor, insira um email válido.",
-            },
-          ]}
-        >
-          <Input disabled />
-        </Form.Item>
+        <Uploader
+          initialUrl={user?.avatarUrl}
+          onChange={handleUploadChange}
+          onError={handleUploadError}
+        />
+      </div>
+      <Form.Item<FieldType>
+        label="Nome Completo"
+        name="fullName"
+        rules={[
+          {
+            required: true,
+            message:
+              "Campo de nome completo não pode estar vazio. Por favor, insira seu nome completo.",
+          },
+          validateName(),
+        ]}
+      >
+        <Input onChange={() => setNeedToSave(true)} />
+      </Form.Item>
+      <Form.Item<FieldType>
+        label="Email"
+        name="email"
+        rules={[
+          {
+            required: true,
+            message:
+              "Campo de email não pode estar vazio. Por favor, insira seu email.",
+          },
+          {
+            type: "email",
+            message:
+              "Endereço de email inválido. Por favor, insira um email válido.",
+          },
+        ]}
+      >
+        <Input disabled />
+      </Form.Item>
 
-        {error !== "" && (
-          <Form.ErrorList
-            css={css({
-              marginBottom: "0.5rem",
-            })}
-            errors={[error].map(message => (
-              <Text type="danger">{message}</Text>
-            ))}
-          />
+      {error !== "" && (
+        <Form.ErrorList
+          css={css({
+            marginBottom: "0.5rem",
+          })}
+          errors={[error].map(message => (
+            <Text type="danger">{message}</Text>
+          ))}
+        />
+      )}
+      <Form.Item>
+        <Button
+          css={css({ width: "auto" })}
+          loading={loading}
+          type="primary"
+          htmlType="submit"
+        >
+          Salvar
+        </Button>
+        <br />
+        {needToSave && (
+          <Text type="secondary" css={css({ fontSize: "0.6rem" })}>
+            * Alterações não salvas
+          </Text>
         )}
-        <Form.Item>
-          <Button
-            css={css({ width: "auto" })}
-            loading={loading}
-            type="primary"
-            htmlType="submit"
-          >
-            Salvar
-          </Button>
-          <br />
-          {needToSave && (
-            <Text type="secondary" css={css({ fontSize: "0.6rem" })}>
-              * Alterações não salvas
-            </Text>
-          )}
-        </Form.Item>
-      </Form>
-    </>
+      </Form.Item>
+    </Form>
   );
 };
 
